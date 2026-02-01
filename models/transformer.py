@@ -64,7 +64,10 @@ class DNATransformer(nn.Module):
         )
 
         # classifier
-        self.fc = nn.Linear(d_model, num_classes)
+        self.fc = nn.Sequential(
+          nn.Linear(d_model, num_classes),
+          nn.Sigmoid()
+        )
 
     def forward(self, x):
         """
