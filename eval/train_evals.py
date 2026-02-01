@@ -13,20 +13,23 @@ class TrainEvals:
 
   # data is list of tuples: (probs, y)
   # probs and y is tensors  
-  def evaluate(self, text ,data):
+  def evaluate(self,data):
     probs = [x[0] for x in data]
     y = [x[1] for x in data]
+    evals = {}
     if self.accuracy:
       accuracy = self.calculate_accuracy(probs,y)
-      print(text," ",f"Accuracy = {accuracy}.4f")
-    
+      evals['accuracy'] = accuracy
+
     if self.sensitivity:
       sensitivity = self.calucate_sensitivity(probs,y)
-      print(text," ",f"sensitivity = {accuracy}.4f")
+      evals['sensitivity'] = sensitivity
 
     if self.specificity:
       specificity = self.calculate_specificity(probs,y)
-      print(text," ",f"specificity = {accuracy}.4f")
+      evals['specificity'] = specificity
+
+    return evals
   
   def calculate_accuracy(self,probs,y):
     probs = torch.cat(probs).view(-1)
