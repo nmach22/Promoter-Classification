@@ -54,3 +54,9 @@ data:
     non_promoter_fasta: "dataset/Arabidopsis_nonTATA_non_prom.fa"
     seq_len: 251
     region: "-200:+50"
+
+dataset_split:
+  random_seed: 42
+  train_p: 0.7
+  val_p: 0.15
+  test_p: 0.15
