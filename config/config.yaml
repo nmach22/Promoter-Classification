@@ -1,0 +1,56 @@
+data:
+  ecoli:
+    name: "Escherichia coli s70"
+    promoter_fasta: "dataset/Ecoli_prom.fa"
+    non_promoter_fasta: "dataset/Ecoli_non_prom.fa"
+    seq_len: 81
+    region: "-60:+20"
+
+  bacillus:
+    name: "Bacillus subtilis"
+    promoter_fasta: "dataset/Bacillus_prom.fa"
+    non_promoter_fasta: "dataset/Bacillus_non_prom.fa"
+    seq_len: 81
+    region: "-60:+20"
+
+  human_tata:
+    name: "Human TATA"
+    promoter_fasta: "dataset/Human_TATA_prom.fa"
+    non_promoter_fasta: "dataset/Human_TATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
+
+  human_nontata:
+    name: "Human non-TATA"
+    promoter_fasta: "dataset/Human_nonTATA_prom.fa"
+    non_promoter_fasta: "dataset/Human_nonTATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
+
+  mouse_tata:
+    name: "Mouse TATA"
+    promoter_fasta: "dataset/Mouse_TATA_prom.fa"
+    non_promoter_fasta: "dataset/Mouse_TATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
+
+  mouse_nontata:
+    name: "Mouse non-TATA"
+    promoter_fasta: "dataset/Mouse_nonTATA_prom.fa"
+    non_promoter_fasta: "dataset/Mouse_nonTATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
+
+  arabidopsis_tata:
+    name: "Arabidopsis TATA"
+    promoter_fasta: "dataset/Arabidopsis_TATA_prom.fa"
+    non_promoter_fasta: "dataset/Arabidopsis_TATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
+
+  arabidopsis_nontata:
+    name: "Arabidopsis non-TATA"
+    promoter_fasta: "dataset/Arabidopsis_nonTATA_prom.fa"
+    non_promoter_fasta: "dataset/Arabidopsis_nonTATA_non_prom.fa"
+    seq_len: 251
+    region: "-200:+50"
