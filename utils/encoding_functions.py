@@ -1,4 +1,6 @@
+import itertools
 import numpy as np
+
 
 def one_hot_encode(seq, max_seq_len):
     mapping = {
@@ -24,3 +26,22 @@ def token_encode(seq, seq_len):
         encoded[i] = vocab.get(seq[i], 0)
 
     return encoded
+
+class KmerEncoding:
+    def __init__(self, k=3):
+        self.k = k
+        self.bases = ['A', 'C', 'G', 'T']
+        self.kmers = [''.join(p) for p in itertools.product(self.bases, repeat=k)]
+        self.vocab = {kmer: i + 1 for i, kmer in enumerate(self.kmers)}
+        self.vocab['<PAD>'] = 0
+
+    def __call__(self, seq, max_seq_len):
+        # max_seq_len here refers to the number of k-mers we want
+        indices = np.zeros(max_seq_len, dtype=np.int64)
+
+        # Extract k-mers
+        for i in range(min(len(seq) - self.k + 1, max_seq_len)):
+            kmer = seq[i:i + self.k]
+            indices[i] = self.vocab.get(kmer, 0)
+
+        return indices
