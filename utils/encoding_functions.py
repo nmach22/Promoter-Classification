@@ -14,3 +14,13 @@ def one_hot_encode(seq, max_seq_len):
         encoded[i] = mapping.get(seq[i], [0,0,0,0])
 
     return encoded
+
+
+def token_encode(seq, seq_len):
+    vocab = {"A":0, "C":1, "G":2, "T":3}
+    encoded = np.zeros(seq_len, dtype=np.int64)
+
+    for i in range(min(len(seq), seq_len)):
+        encoded[i] = vocab.get(seq[i], 0)
+
+    return encoded
