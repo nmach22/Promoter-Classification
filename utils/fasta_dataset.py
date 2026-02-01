@@ -23,21 +23,6 @@ class FastaDataset(Dataset):
     def __len__(self):
         return len(self.sequences)
 
-    # def one_hot_encode(self, seq):
-    #     mapping = {
-    #         "A": [1,0,0,0],
-    #         "C": [0,1,0,0],
-    #         "G": [0,0,1,0],
-    #         "T": [0,0,0,1]
-    #     }
-
-    #     encoded = np.zeros((self.seq_len, 4), dtype=np.float32)
-
-    #     for i in range(min(len(seq), self.seq_len)):
-    #         encoded[i] = mapping.get(seq[i], [0,0,0,0])
-
-    #     return encoded
-
     def __getitem__(self, idx):
         seq = self.sequences[idx]
         label = self.labels[idx]
