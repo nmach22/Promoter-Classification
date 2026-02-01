@@ -7,7 +7,7 @@ from torch.utils.data import Subset
 
 
 _PATH_TO_ROOT = Path.cwd().parent.absolute()
-_DEFAULT_CONFIG_PATH = os.path.join(_PATH_TO_ROOT, 'config', 'config.yaml')
+_DEFAULT_CONFIG_PATH = os.path.join(Path(".").parent.absolute(),"Promoter-Classification", 'config', 'config.yaml')
 
 with open(_DEFAULT_CONFIG_PATH, 'r') as f:
     config = yaml.safe_load(f)
