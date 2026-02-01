@@ -1,7 +1,23 @@
+import os
+from pathlib import Path
+
 import numpy as np
+import yaml
 from torch.utils.data import Subset
 
-def dataset_split(dataset, train_ratio=0.7, val_ratio=0.15, test_ratio=0.15, seed=42):
+
+_PATH_TO_ROOT = Path.cwd().parent.absolute()
+_DEFAULT_CONFIG_PATH = os.path.join(_PATH_TO_ROOT, 'config', 'config.yaml')
+
+with open(_DEFAULT_CONFIG_PATH, 'r') as f:
+    config = yaml.safe_load(f)
+
+def dataset_split(
+        dataset,
+        train_ratio=config['dataset_split']['train_p'],
+        val_ratio=config['dataset_split']['val_p'],
+        test_ratio=config['dataset_split']['test_p'],
+        seed=config['dataset_split']['random_seed']):
     assert train_ratio + val_ratio + test_ratio == 1.0
 
     labels = np.array(dataset.labels)
