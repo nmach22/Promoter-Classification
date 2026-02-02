@@ -5,13 +5,14 @@ class TrainEvals:
   def __init__(self,
       accuracy:bool=True,
       sensitivity:bool=True,
-      specificity:bool=True
+      specificity:bool=True,
+      correlation_coef:bool=True
       ) -> None:
 
       self.accuracy = accuracy
       self.sensitivity = sensitivity
       self.specificity = specificity
-
+      self.correlation_coef = correlation_coef
 
   def evaluate(self,data):
     probs = [x[0] for x in data]
@@ -32,6 +33,10 @@ class TrainEvals:
     if self.specificity:
       specificity = self.calculate_specificity(probs,y)
       evals['specificity'] = specificity
+
+    if self.correlation_coef:
+      correlation_coef = self.calulcate_cc(probs,y)
+      evals['correlation_coef'] = correlation_coef
 
     return evals
   
@@ -65,7 +70,7 @@ class TrainEvals:
 
     return TN / (TN + FP)
 
-  def correlation_coef(self,probs,y):
+  def calulcate_cc(self,probs,y):
     preds = (probs >= 0.5).long()
 
     TP = ((preds == 1) & (y == 1)).sum().item()

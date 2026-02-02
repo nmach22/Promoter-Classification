@@ -7,4 +7,3 @@ matplotlib
 pyyaml
 biopython
 Bio
-Bioxgboost
