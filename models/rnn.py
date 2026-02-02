@@ -14,6 +14,8 @@ class PromoterRNN(nn.Module):
             rnn_input_size = 4
 
         self.rnn = nn.RNN(rnn_input_size, hidden_dim, batch_first=True)
+
+        # classifier
         self.fc = nn.Sequential(
             nn.Linear(hidden_dim, 1),
             nn.Sigmoid()
@@ -23,4 +25,6 @@ class PromoterRNN(nn.Module):
         # x is (batch, seq_len) for k-mer OR (batch, seq_len, 4) for one-hot
         x = self.embedding(x)
         _, hidden = self.rnn(x)
-        return self.fc(hidden.squeeze(0))
+        x = self.fc(hidden.squeeze(0))
+
+        return x.squeeze(-1)
