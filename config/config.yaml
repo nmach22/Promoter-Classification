@@ -60,3 +60,7 @@ dataset_split:
   train_p: 0.7
   val_p: 0.15
   test_p: 0.15
+
+
+train:
+  batch_size: 32

@@ -77,5 +77,9 @@ class Train:
             )
 
             for f in self.eval_list:
-                f.evaluate("Train: ",train_out)
-                f.evaluate("Val: ",val_out)
+                train_eval = f.evaluate(train_out)
+                val_eval = f.evaluate(val_out)
+
+                for k in train_eval:
+                  print(f"  Train {k}: {train_eval[k]:.4f}")
+                  print(f"  Val {k}: {val_eval[k]:.4f}")
