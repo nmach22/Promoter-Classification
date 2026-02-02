@@ -41,11 +41,17 @@ class XGBoostPromoterModel:
             verbose=verbose
         )
 
-    def predict(self, X):
+    def predict(self, X, threshold=0.5):
         """
         Predict class labels.
+        Allows setting a custom threshold for binary classification.
+        Default is 0.5.
         """
-        return self.model.predict(X)
+        if threshold == 0.5:
+            return self.model.predict(X)
+        else:
+            probs = self.model.predict_proba(X)[:, 1]
+            return (probs >= threshold).astype(int)
 
     def predict_proba(self, X):
         """
