@@ -14,7 +14,10 @@ class PromoterRNN(nn.Module):
             rnn_input_size = 4
 
         self.rnn = nn.RNN(rnn_input_size, hidden_dim, batch_first=True)
-        self.fc = nn.Sigmoid(hidden_dim, 1)
+        self.fc = nn.Sequential(
+            nn.Linear(hidden_dim, 1),
+            nn.Sigmoid()
+        )
 
     def forward(self, x):
         # x is (batch, seq_len) for k-mer OR (batch, seq_len, 4) for one-hot
