@@ -45,3 +45,25 @@ class KmerEncoding:
             indices[i] = self.vocab.get(kmer, 0)
 
         return indices
+
+def flatten_one_hot_encode(seq, max_seq_len):
+    """
+    Applies one-hot encoding and flattens it into a 1D array.
+    """
+    encoded = one_hot_encode(seq, max_seq_len)
+    return encoded.flatten()
+
+def kmer_encode(seq, seq_len, k=3):
+    """
+    Returns a fixed-size vector of k-mer counts.
+    """
+    bases = ['A', 'C', 'G', 'T']
+    all_kmers = [''.join(p) for p in itertools.product(bases, repeat=k)]
+    kmer_map = {kmer: 0 for kmer in all_kmers}
+    
+    for i in range(len(seq) - k + 1):
+        sub = seq[i:i+k]
+        if sub in kmer_map:
+            kmer_map[sub] += 1
+            
+    retu
