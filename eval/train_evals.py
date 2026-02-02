@@ -1,4 +1,5 @@
 import torch
+import math
 
 class TrainEvals:
   def __init__(self,
@@ -11,11 +12,14 @@ class TrainEvals:
       self.sensitivity = sensitivity
       self.specificity = specificity
 
-  # data is list of tuples: (probs, y)
-  # probs and y is tensors  
+
   def evaluate(self,data):
     probs = [x[0] for x in data]
     y = [x[1] for x in data]
+
+    probs = torch.cat(probs).view(-1)
+    y = torch.cat(y).view(-1)
+
     evals = {}
     if self.accuracy:
       accuracy = self.calculate_accuracy(probs,y)
@@ -32,9 +36,6 @@ class TrainEvals:
     return evals
   
   def calculate_accuracy(self,probs,y):
-    probs = torch.cat(probs).view(-1)
-    y = torch.cat(y).view(-1)
-
     preds = (probs >= 0.5).long()
 
     correct = (preds == y).sum().item()
@@ -43,9 +44,6 @@ class TrainEvals:
     return correct / total
   
   def calucate_sensitivity(self, probs,y):
-    probs = torch.cat(probs).view(-1)
-    y = torch.cat(y).view(-1)
-
     preds = (probs >= 0.5).long()
 
     TP = ((preds == 1) & (y == 1)).sum().item()
@@ -57,9 +55,6 @@ class TrainEvals:
     return TP / (TP + FN)
 
   def calculate_specificity(self,probs, y):
-    probs = torch.cat(probs).view(-1)
-    y = torch.cat(y).view(-1)
-
     preds = (probs >= 0.5).long()
 
     TN = ((preds == 0) & (y == 0)).sum().item()
@@ -69,3 +64,21 @@ class TrainEvals:
         return 0.0
 
     return TN / (TN + FP)
+
+  def correlation_coef(self,probs,y):
+    preds = (probs >= 0.5).long()
+
+    TP = ((preds == 1) & (y == 1)).sum().item()
+    TN = ((preds == 0) & (y == 0)).sum().item()
+    FP = ((preds == 1) & (y == 0)).sum().item()
+    FN = ((preds == 0) & (y == 1)).sum().item()
+
+    numerator = TP * TN - FP * FN
+    denominator = math.sqrt(
+        (TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)
+    )
+
+    if denominator == 0:
+        return 0.0
+
+    return numerator / denominator
