@@ -7,8 +7,8 @@ from models.rnn import PromoterRNN
 # Example 1: Simple shallow model (original behavior)
 # ============================================================================
 model_simple = PromoterRNN(
-    vocab_size=None,      # One-hot encoding mode
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=32,
     num_layers=1,         # Single RNN layer
     dropout=0.0,
@@ -22,8 +22,8 @@ model_simple = PromoterRNN(
 # Example 2: Deep RNN with multiple stacked layers
 # ============================================================================
 model_deep_rnn = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=64,
     num_layers=3,         # 3 stacked RNN layers
     dropout=0.3,          # Dropout between RNN layers
@@ -37,8 +37,8 @@ model_deep_rnn = PromoterRNN(
 # Example 3: Bidirectional RNN for better context
 # ============================================================================
 model_bidirectional = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=32,
     num_layers=2,
     dropout=0.2,
@@ -53,8 +53,8 @@ model_bidirectional = PromoterRNN(
 # Example 4: Deep fully connected classifier head
 # ============================================================================
 model_deep_fc = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=32,
     num_layers=1,
     dropout=0.0,
@@ -68,8 +68,8 @@ model_deep_fc = PromoterRNN(
 # Example 5: Very deep model with everything
 # ============================================================================
 model_very_deep = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=128,
     num_layers=4,              # 4 stacked RNN layers
     dropout=0.3,               # Dropout in both RNN and FC
@@ -102,8 +102,8 @@ model_kmer = PromoterRNN(
 # Example 7: Minimal dropout, focus on depth
 # ============================================================================
 model_deep_no_dropout = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=64,
     num_layers=5,          # Very deep RNN
     dropout=0.0,           # No dropout (not recommended for deep models)
@@ -116,8 +116,8 @@ model_deep_no_dropout = PromoterRNN(
 # Example 8: Recommended configuration for promoter classification
 # ============================================================================
 model_recommended = PromoterRNN(
-    vocab_size=None,
-    embed_dim=None,
+    vocab_size=65,
+    embed_dim=16,
     hidden_dim=64,
     num_layers=2,          # 2 layers is often a good balance
     dropout=0.3,           # Moderate dropout for regularization
