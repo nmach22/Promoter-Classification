@@ -117,34 +117,34 @@ class Train:
             self.plot_history()
 
     def plot_history(self, figsize=(8, 6)):
-        """Plot training and validation losses and metrics."""
-        num_metrics = 1 + len(self.history['train_metrics'])
-        fig, axes = plt.subplots(1, num_metrics, figsize=(figsize[0], figsize[1]))
-
-        if num_metrics == 1:
-            axes = [axes]
-
+        """Plot training and validation losses and metrics as separate plots."""
         epochs = range(1, len(self.history['train_loss']) + 1)
 
-        # Plot loss
-        axes[0].plot(epochs, self.history['train_loss'], 'b-', label='Train Loss')
-        axes[0].plot(epochs, self.history['val_loss'], 'r-', label='Val Loss')
-        axes[0].set_xlabel('Epoch')
-        axes[0].set_ylabel('Loss')
-        axes[0].set_title('Training and Validation Loss')
-        axes[0].legend()
-        axes[0].grid(True)
+        figures = []
 
-        # Plot each metric
-        for idx, metric_name in enumerate(self.history['train_metrics'].keys(), 1):
-            axes[idx].plot(epochs, self.history['train_metrics'][metric_name], 'b-', label=f'Train {metric_name}')
-            axes[idx].plot(epochs, self.history['val_metrics'][metric_name], 'r-', label=f'Val {metric_name}')
-            axes[idx].set_xlabel('Epoch')
-            axes[idx].set_ylabel(metric_name)
-            axes[idx].set_title(f'Training and Validation {metric_name}')
-            axes[idx].legend()
-            axes[idx].grid(True)
-
+        # Plot loss in a separate figure
+        fig_loss = plt.figure(figsize=figsize)
+        plt.plot(epochs, self.history['train_loss'], 'b-', label='Train Loss')
+        plt.plot(epochs, self.history['val_loss'], 'r-', label='Val Loss')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.title('Training and Validation Loss')
+        plt.legend()
+        plt.grid(True)
         plt.show()
+        figures.append(fig_loss)
 
-        return fig
+        # Plot each metric in a separate figure
+        for metric_name in self.history['train_metrics'].keys():
+            fig_metric = plt.figure(figsize=figsize)
+            plt.plot(epochs, self.history['train_metrics'][metric_name], 'b-', label=f'Train {metric_name}')
+            plt.plot(epochs, self.history['val_metrics'][metric_name], 'r-', label=f'Val {metric_name}')
+            plt.xlabel('Epoch')
+            plt.ylabel(metric_name)
+            plt.title(f'Training and Validation {metric_name}')
+            plt.legend()
+            plt.grid(True)
+            plt.show()
+            figures.append(fig_metric)
+
+        return figures
