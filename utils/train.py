@@ -1,6 +1,10 @@
 import torch
 import matplotlib.pyplot as plt
 
+from eval.train_evals import TrainEvals
+from utils.get_device import get_device
+
+
 class Train:
     def __init__(
         self,
@@ -9,15 +13,20 @@ class Train:
         val_loader,
         optimizer,
         criterion,
-        eval_list = [],
-        device="cpu"
+        eval_list=None,
+        device=None
     ):
+        if eval_list is None:
+            self.eval_list = [TrainEvals()]
+        if device is None:
+            self.device = get_device()
+        self.device = device
         self.model = model.to(device)
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.optimizer = optimizer
         self.criterion = criterion
-        self.device = device
+
         self.eval_list = eval_list
 
         # History tracking
