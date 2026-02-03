@@ -20,7 +20,7 @@ class Train:
             self.eval_list = [TrainEvals()]
         if device is None:
             self.device = get_device()
-        self.device = device
+
         self.model = model.to(device)
         self.train_loader = train_loader
         self.val_loader = val_loader
