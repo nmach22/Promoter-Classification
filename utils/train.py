@@ -16,13 +16,8 @@ class Train:
         eval_list=None,
         device=None
     ):
-        if not eval_list:
-            self.eval_list = [TrainEvals()]
-
-        if device is None:
-            self.device = get_device()
-        else:
-            self.device = device
+        self.eval_list = eval_list or [TrainEvals()]
+        self.device = device or get_device()
 
         self.model = model.to(self.device)
         self.train_loader = train_loader
