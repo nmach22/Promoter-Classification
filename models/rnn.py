@@ -33,9 +33,15 @@ import torch.nn as nn
 """
 
 class PromoterRNN(nn.Module):
-    def __init__(self, vocab_size=None, embed_dim=None, hidden_dim=32,
-                 num_layers=1, dropout=0.0, bidirectional=False,
-                 fc_hidden_dims=None):
+    def __init__(
+            self,
+            vocab_size=None,
+            embed_dim=None,
+            hidden_dim=32,
+            num_layers=1,
+            dropout=0.0,
+            bidirectional=False,
+            fc_hidden_dims=None):
         """
         Args:
             vocab_size: Size of vocabulary for embedding (None for one-hot encoding)
