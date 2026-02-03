@@ -13,10 +13,10 @@ class Train:
         val_loader,
         optimizer,
         criterion,
-        eval_list=[],
+        eval_list=None,
         device=None
     ):
-        if len(eval_list) == 0:
+        if not eval_list:
             self.eval_list = [TrainEvals()]
         if device is None:
             self.device = get_device()
@@ -26,8 +26,6 @@ class Train:
         self.val_loader = val_loader
         self.optimizer = optimizer
         self.criterion = criterion
-
-        self.eval_list = eval_list
 
         # History tracking
         self.history = {
