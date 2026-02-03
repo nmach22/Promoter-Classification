@@ -118,7 +118,7 @@ class Train:
         if plot:
             self.plot_history()
 
-    def plot_history(self, figsize=(12, 8)):
+    def plot_history(self, figsize=(8, 6)):
         """Plot training and validation losses and metrics."""
         num_metrics = 1 + len(self.history['train_metrics'])
         fig, axes = plt.subplots(1, num_metrics, figsize=(figsize[0], figsize[1]))
@@ -147,7 +147,6 @@ class Train:
             axes[idx].legend()
             axes[idx].grid(True)
 
-        plt.tight_layout()
         plt.show()
 
         return fig
