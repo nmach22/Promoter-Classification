@@ -1,5 +1,37 @@
 import torch.nn as nn
 
+
+"""
+## Parameter Effects
+
+### `num_layers` - Makes RNN deeper vertically
+- `num_layers=1`: Single RNN layer (shallow)
+- `num_layers=2`: 2 stacked RNN layers
+- `num_layers=3`: 3 stacked RNN layers (deep)
+- **Tip**: Values 2-4 are common. Higher values may need more data.
+
+### `bidirectional` - Processes sequences in both directions
+- `False`: Reads sequence left-to-right only
+- `True`: Reads both left-to-right and right-to-left, **doubles output dimension**
+- **Tip**: Usually improves performance for DNA sequences
+
+### `fc_hidden_dims` - Makes classifier head deeper
+- `None` or `[]`: Direct connection (RNN → Output)
+- `[64]`: One hidden layer
+- `[128, 64]`: Two hidden layers  
+- `[256, 128, 64]`: Three hidden layers (very deep)
+- **Tip**: Each layer adds: Linear → ReLU → Dropout
+
+### `dropout` - Regularization
+- Applied between RNN layers (if `num_layers > 1`)
+- Applied after each FC hidden layer
+- **Tip**: 0.2-0.5 for deep models, 0.0 for shallow
+
+### `hidden_dim` - Controls capacity
+- Larger values = more parameters = more capacity
+- With `bidirectional=True`, output is `2 * hidden_dim`
+"""
+
 class PromoterRNN(nn.Module):
     def __init__(self, vocab_size=None, embed_dim=None, hidden_dim=32,
                  num_layers=1, dropout=0.0, bidirectional=False,
