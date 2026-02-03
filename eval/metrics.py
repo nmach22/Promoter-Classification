@@ -1,11 +1,65 @@
 from sklearn.metrics import roc_curve, auc
 import numpy as np
+import random
 import torch
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+DNA_ALPHABET = ['A', 'C', 'G', 'T']
+
+def random_substitution_top_kmers(
+    model,
+    seq,
+    encoding_func,
+    seq_len,
+    window_size=6,
+    top_k=5,
+    device='cpu'
+):
+    model.eval()
+
+    # original prediction
+    x_orig = encoding_func(seq, seq_len)
+    x_orig = torch.from_numpy(x_orig).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        base_prob = model(x_orig).item()
+
+    drops = []
+
+    for start in range(0, seq_len - window_size + 1):
+        seq_list = list(seq)
+
+        # randomize window
+        for i in range(start, start + window_size):
+            seq_list[i] = random.choice(DNA_ALPHABET)
+
+        new_seq = "".join(seq_list)
+
+        x_mut = encoding_func(new_seq, seq_len)
+        x_mut = torch.from_numpy(x_mut).unsqueeze(0).to(device)
+
+        with torch.no_grad():
+            new_prob = model(x_mut).item()
+
+        drop = base_prob - new_prob
+        drops.append(drop)
+
+    drops = np.array(drops)
+
+    # get indices of most important windows
+    top_idx = np.argsort(drops)[::-1][:top_k]
+
+    important_kmers = []
+    for i in top_idx:
+        kmer = seq[i:i+window_size]
+        important_kmers.append((i, kmer, drops[i]))
+
+    return important_kmers
+
 
 def calculate_metrics(true_labels, predictions, threshold):
     """
