@@ -21,7 +21,7 @@ class Train:
         if device is None:
             self.device = get_device()
 
-        self.model = model.to(device)
+        self.model = model.to(self.device)
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.optimizer = optimizer
