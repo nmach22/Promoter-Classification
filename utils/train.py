@@ -13,10 +13,10 @@ class Train:
         val_loader,
         optimizer,
         criterion,
-        eval_list=None,
+        eval_list=[],
         device=None
     ):
-        if eval_list is None:
+        if not eval_list:
             self.eval_list = [TrainEvals()]
         if device is None:
             self.device = get_device()
