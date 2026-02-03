@@ -1,4 +1,5 @@
 from sklearn.metrics import roc_curve, auc
+import os
 import numpy as np
 import random
 import torch
@@ -93,7 +94,9 @@ def calculate_metrics(true_labels, predictions, threshold):
     }
     return metrics
 
-def plot_confusion_matrix(true_labels, predictions, threshold=0.5, title='Confusion Matrix'):
+def plot_confusion_matrix(true_labels, predictions, threshold=0.5, title='Confusion Matrix',
+    save_dir=None, file_name=None
+):
     """
     Calculates and plots the confusion matrix.
 
@@ -113,6 +116,12 @@ def plot_confusion_matrix(true_labels, predictions, threshold=0.5, title='Confus
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
     plt.title(title)
+
+    if save_dir is not None and file_name is not None:
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, file_name)
+        plt.savefig(save_path, bbox_inches='tight', dpi=300)
+
     plt.show()
 
 def find_optimal_threshold(true_labels, predictions, thresholds):
@@ -142,7 +151,9 @@ def find_optimal_threshold(true_labels, predictions, thresholds):
 
     return optimal_threshold, max_f1_score
 
-def plot_roc_curve(fpr, tpr, roc_auc, title="Receiver Operating Characteristic (ROC) Curve"):
+def plot_roc_curve(fpr, tpr, roc_auc, title="Receiver Operating Characteristic (ROC) Curve",
+  save_dir=None, file_name=None
+):
     """
     Plots the ROC curve given FPR, TPR, and AUC.
 
@@ -162,6 +173,12 @@ def plot_roc_curve(fpr, tpr, roc_auc, title="Receiver Operating Characteristic (
     plt.title(title)
     plt.legend(loc='lower right')
     plt.grid(True)
+
+    if save_dir is not None and file_name is not None:
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, file_name)
+        plt.savefig(save_path, bbox_inches='tight', dpi=300)
+
     plt.show()
 
 def calculate_roc_data(model, test_loader, plot=False,device='cuda'):
