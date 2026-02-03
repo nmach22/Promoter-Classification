@@ -109,7 +109,7 @@ class Train:
         if plot:
             self.plot_history()
 
-        return self.history
+        # return self.history
 
     def plot_history(self, figsize=(12, 4)):
         """Plot training and validation losses and metrics."""
