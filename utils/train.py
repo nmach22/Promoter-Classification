@@ -109,9 +109,7 @@ class Train:
         if plot:
             self.plot_history()
 
-        # return self.history
-
-    def plot_history(self, figsize=(12, 4)):
+    def plot_history(self, figsize=(12, 8)):
         """Plot training and validation losses and metrics."""
         num_metrics = 1 + len(self.history['train_metrics'])
         fig, axes = plt.subplots(1, num_metrics, figsize=(figsize[0], figsize[1]))
