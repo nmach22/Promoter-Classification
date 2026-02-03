@@ -16,7 +16,7 @@ class Train:
         eval_list=[],
         device=None
     ):
-        if not eval_list:
+        if len(eval_list) == 0:
             self.eval_list = [TrainEvals()]
         if device is None:
             self.device = get_device()
