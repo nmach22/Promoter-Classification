@@ -141,6 +141,12 @@ class Train:
             axes[idx].grid(True)
 
         plt.tight_layout()
-        plt.show()
+
+        # For Colab compatibility
+        try:
+            from IPython.display import display
+            display(fig)
+        except ImportError:
+            plt.show()
 
         return fig
