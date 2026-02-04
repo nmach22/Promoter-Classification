@@ -72,26 +72,35 @@ def calculate_metrics(true_labels, predictions, threshold):
         threshold (float): The threshold to binarize predictions.
 
     Returns:
-        dict: A dictionary containing accuracy, precision, recall (sensitivity), specificity, and F1-score.
+        dict: A dictionary containing accuracy, precision, recall (sensitivity),
+              specificity, F1-score, and correlation coefficient (MCC).
     """
     binary_predictions = (predictions >= threshold).astype(int)
 
     accuracy = accuracy_score(true_labels, binary_predictions)
-    precision = precision_score(true_labels, binary_predictions)
-    recall = recall_score(true_labels, binary_predictions)  # Also known as sensitivity
+    precision = precision_score(true_labels, binary_predictions, zero_division=0)
+    recall = recall_score(true_labels, binary_predictions)  # sensitivity
     f1 = f1_score(true_labels, binary_predictions)
 
-    # Calculate specificity (negative recall)
     tn, fp, fn, tp = confusion_matrix(true_labels, binary_predictions).ravel()
-    specificity = tn / (tn + fp)
+    specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+
+    # Matthews Correlation Coefficient
+    denom = np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+    if denom == 0:
+        mcc = 0.0
+    else:
+        mcc = (tp * tn - fp * fn) / denom
 
     metrics = {
         "Accuracy": accuracy,
         "Precision": precision,
         "Recall (Sensitivity)": recall,
         "Negative Recall (Specificity)": specificity,
-        "F1-Score": f1
+        "F1-Score": f1,
+        "Correlation Coefficient (MCC)": mcc
     }
+
     return metrics
 
 def plot_confusion_matrix(true_labels, predictions, threshold=0.5, title='Confusion Matrix',
