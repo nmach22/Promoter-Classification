@@ -310,8 +310,44 @@ class PromoterLSTM(nn.Module):
         self.fc = nn.Sequential(*layers)
 
     def forward(self, x):
-        # x is (batch, seq_len) for k-mer OR (batch, seq_len, 4) for one-hot
-        x = self.embedding(x)  # (batch, seq_len, input_dim)
+        """
+        Forward pass through the model.
+
+        Expected input formats:
+        - K-mer mode (vocab_size provided): (batch, seq_len) with integer tokens
+        - One-hot mode (vocab_size=None): (batch, seq_len, 4) with one-hot vectors
+
+        Args:
+            x: Input tensor
+
+        Returns:
+            Output predictions (batch,) with values in [0, 1]
+        """
+        # Apply embedding
+        x = self.embedding(x)
+
+        # Handle different input dimensions
+        if x.dim() == 2:
+            # 2D input: (batch, seq_len)
+            # This happens when using vocab_size (k-mer embeddings)
+            # After embedding, x should be (batch, seq_len, embed_dim)
+            # But if embedding is Identity and input is 2D, we need to add a feature dimension
+            if isinstance(self.embedding, nn.Identity):
+                # This is one-hot mode but received 2D input
+                # Likely using token_encode instead of one_hot_encode
+                raise ValueError(
+                    "Input is 2D but model expects one-hot encoding (3D input). "
+                    "Either:\n"
+                    "1. Use one_hot_encode in your dataset (recommended for vocab_size=None)\n"
+                    "2. Or specify vocab_size=4 and embed_dim=... when creating the model"
+                )
+            # Otherwise, x is already properly shaped after embedding
+        elif x.dim() == 3:
+            # 3D input: (batch, seq_len, features)
+            # This is correct for one-hot encoding
+            pass
+        else:
+            raise ValueError(f"Expected 2D or 3D input, got {x.dim()}D tensor with shape {x.shape}")
 
         # Apply CNN for k-mer feature extraction (if enabled)
         if self.use_cnn:
